@@ -1,0 +1,3 @@
+[submodule "src/pygame_shared"]
+	path = src/pygame_shared
+	url = https://github.com/pietvdw67/pygame_shared.git
