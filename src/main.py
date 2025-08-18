@@ -1,23 +1,31 @@
 from settings import *
 from src.level import Level
+from pytmx.util_pygame import load_pygame
+from src.player import Player
 
 
 class Game:
     def __init__(self):
         pygame.init()
-        self.display_surface =pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+        self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption("Super Pirate World")
+        self.clock = pygame.time.Clock()
 
-        self.current_stage = Level()
+        self.tmx_maps = {
+            0: load_pygame(os.path.join(BASE_FOLDER,  'data', 'levels', 'omni.tmx'))
+        }
+
+        self.current_stage = Level(self.tmx_maps[0])
 
     def run(self):
         while True:
+            dt = self.clock.tick(60) / 1000
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
 
-            self.current_stage.run()
+            self.current_stage.run(dt)
 
             pygame.display.update()
 
